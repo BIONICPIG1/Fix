@@ -7,7 +7,9 @@ The current build provides visual watermark removal, watermark overlay/replaceme
 ## Current Features
 
 - Open local video files.
-- Seek to a frame using the position slider.
+- Seek to a frame using the position slider and step by individual frames.
+- Export the selected frame to PNG.
+- Trim videos by choosing start and end times in the desktop UI.
 - Draw one or more reusable selections on the video.
 - Move an existing selection by dragging it.
 - Remove watermark regions with FFmpeg `delogo`.
@@ -26,7 +28,7 @@ The current build provides visual watermark removal, watermark overlay/replaceme
 FIX uses one shared codebase.
 
 - **Linux:** currently verified desktop runtime.
-- **Windows:** contributors are welcome for platform-neutral work; full desktop runtime/packaging support is planned under M5.
+- **Windows:** native MSYS2 UCRT64 contributor launcher/setup available for testing (`run-windows.cmd`); full validated release/packaging remains planned under M5.
 - **macOS:** contributors are welcome for platform-neutral work; full desktop runtime/packaging support is planned under M5.
 
 Operating-system support is infrastructure/packaging work, not a media plugin. Do not create Windows/macOS copies of the media engine or plugin architecture.
@@ -43,6 +45,7 @@ New user-facing media operations are plugins by default.
 Fix/
 ├── app.py
 ├── run.sh
+├── run-windows.cmd
 ├── requirements.txt
 ├── LICENSE.txt
 ├── README.md
@@ -67,7 +70,9 @@ Fix/
 │       └── plugins/
 │           ├── remove_watermark/
 │           ├── watermark_overlay/
-│           └── cover_art/
+│           ├── cover_art/
+│           ├── trim/
+│           └── export_frame/
 │
 ├── tests/
 ├── docs/
@@ -75,6 +80,17 @@ Fix/
 └── scripts/
     └── check_dependencies.py
 ```
+
+## Added in the Windows contributor branch
+
+- `run-windows.cmd` starts FIX using MSYS2 UCRT64 Python, GTK and FFmpeg.
+- `run-windows.cmd --check` and `--test` check dependencies and run backend tests.
+- **Trim Video** UI: set start/end from the playhead, choose output, and export.
+- **Export PNG Frame**: saves the playhead frame as a PNG through a new plugin.
+- **Frame step buttons**: move the preview backwards/forwards by one frame.
+
+These changes are contributor candidates; release support and milestone changes
+require maintainer/CI approval (see `ROADMAP.md`).
 
 ## Plugin-Based Design
 
@@ -191,7 +207,7 @@ Or:
 /usr/bin/python3 app.py
 ```
 
-Windows/macOS contributors should follow [docs/PLATFORM_SUPPORT.md](docs/PLATFORM_SUPPORT.md) for platform-neutral contribution guidance. Do not assume the Linux launcher represents full cross-platform runtime support.
+Windows users can use [docs/WINDOWS_SETUP.md](docs/WINDOWS_SETUP.md) and `run-windows.cmd` for a native contributor setup. This is **not yet a verified Windows release**. macOS contributors should follow [docs/PLATFORM_SUPPORT.md](docs/PLATFORM_SUPPORT.md). Do not assume the Linux launcher represents full cross-platform runtime support.
 
 ## Dependency Check
 
